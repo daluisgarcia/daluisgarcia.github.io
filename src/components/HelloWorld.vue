@@ -1,65 +1,63 @@
 <template>
-    <v-container class="fill-height">
-        <v-responsive class="d-flex align-center text-center fill-height">
-            <v-img contain height="300" src="@/assets/logo.svg" />
+    <v-responsive class="d-flex align-center text-center">
+        <v-avatar size="200">
+            <v-img alt="avatar" src="@/assets/logo.svg" />
+        </v-avatar>
 
-            <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
+        <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
 
-            <h1 class="text-h2 font-weight-bold">
-                A portfolio in construction
-            </h1>
+        <h1 class="text-h2 font-weight-bold">
+            <Icon class="mx-1" icon="twemoji:construction" />
+            My portfolio in construction
+            <Icon class="mx-1" icon="twemoji:building-construction" />
+        </h1>
 
-            <div class="py-14" />
+        <div class="py-12" />
 
-            <v-row class="d-flex align-center justify-center">
-                <v-col cols="auto">
-                    <v-btn
-                        href="https://next.vuetifyjs.com/components/all/"
-                        min-width="164"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        variant="text"
-                    >
-                        <v-icon icon="mdi-view-dashboard" size="large" start />
+        <v-row class="d-flex align-center justify-center">
+            <v-col cols="auto">
+                <v-btn
+                    color="white"
+                    href="https://github.com/daluisgarcia"
+                    min-width="164"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    variant="flat"
+                >
+                    <Icon class="mx-1" icon="logos:github-icon" />
+                    Github
+                </v-btn>
+            </v-col>
 
-                        Components
-                    </v-btn>
-                </v-col>
+            <v-col cols="auto">
+                <v-btn
+                    color="primary"
+                    min-width="228"
+                    rel="noopener noreferrer"
+                    size="x-large"
+                    target="_blank"
+                >
+                    <v-icon icon="mdi-speedometer" size="large" start />
+                    Are you ready?
+                </v-btn>
+            </v-col>
 
-                <v-col cols="auto">
-                    <v-btn
-                        color="primary"
-                        href="https://next.vuetifyjs.com/introduction/why-vuetify/#feature-guides"
-                        min-width="228"
-                        rel="noopener noreferrer"
-                        size="x-large"
-                        target="_blank"
-                        variant="flat"
-                    >
-                        <v-icon icon="mdi-speedometer" size="large" start />
-
-                        Get Started
-                    </v-btn>
-                </v-col>
-
-                <v-col cols="auto">
-                    <v-btn
-                        href="https://community.vuetifyjs.com/"
-                        min-width="164"
-                        rel="noopener noreferrer"
-                        target="_blank"
-                        variant="text"
-                    >
-                        <v-icon icon="mdi-account-group" size="large" start />
-
-                        Community
-                    </v-btn>
-                </v-col>
-            </v-row>
-        </v-responsive>
-    </v-container>
+            <v-col cols="auto">
+                <v-btn
+                    href="https://www.linkedin.com/in/daluisgarcia/"
+                    min-width="164"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    variant="flat"
+                >
+                    <Icon class="mx-1" icon="logos:linkedin-icon" />
+                    LinkedIn
+                </v-btn>
+            </v-col>
+        </v-row>
+    </v-responsive>
 </template>
 
 <script lang="ts" setup>
-//
+import { Icon } from '@iconify/vue';
 </script>
