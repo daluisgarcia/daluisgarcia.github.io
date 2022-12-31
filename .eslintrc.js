@@ -1,3 +1,5 @@
+// require('@rushstack/eslint-patch/modern-module-resolution')
+
 module.exports = {
     root: true,
     env: {
@@ -9,6 +11,9 @@ module.exports = {
         '@vue/eslint-config-typescript',
         '@vue/eslint-config-prettier',
     ],
+    parserOptions: {
+        ecmaVersion: 'latest',
+    },
     rules: {
         'vue/multi-word-component-names': 'off',
         // "prettier/prettier": ["error", { endOfLine: "off" }],
