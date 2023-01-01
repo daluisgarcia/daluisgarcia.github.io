@@ -19,7 +19,12 @@ import { RouterView } from 'vue-router';
 import NavBar from '@/layouts/NavBar.vue';
 import Footer from './layouts/Footer.vue';
 
-const theme: Ref<string> = ref('light');
+const theme: Ref<string> = ref(
+    window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches // Get user's theme preference
+        ? 'dark'
+        : 'light'
+);
 function changeTheme() {
     theme.value = theme.value === 'light' ? 'dark' : 'light';
 }
