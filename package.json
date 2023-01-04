@@ -13,6 +13,7 @@
     "@mdi/font": "7.0.96",
     "@types/babel__core": "^7.1.20",
     "@vue/eslint-config-prettier": "^7.0.0",
+    "axios": "^1.2.2",
     "core-js": "^3.8.3",
     "pinia": "^2.0.23",
     "roboto-fontface": "*",

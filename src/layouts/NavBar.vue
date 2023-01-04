@@ -3,10 +3,20 @@
         <div style="width: 200px" class="d-none d-sm-inline"></div>
         <v-row justify="center">
             <v-col cols="auto">
-                <v-btn variant="text">BRIEF</v-btn>
+                <RouterLink
+                    style="text-decoration: none; color: inherit"
+                    to="/"
+                >
+                    <v-btn variant="text"> BRIEF </v-btn>
+                </RouterLink>
             </v-col>
             <v-col cols="auto">
-                <v-btn variant="text">PROJECT</v-btn>
+                <RouterLink
+                    style="text-decoration: none; color: inherit"
+                    to="/projects"
+                >
+                    <v-btn variant="text"> PROJECTS </v-btn>
+                </RouterLink>
             </v-col>
         </v-row>
         <v-btn
