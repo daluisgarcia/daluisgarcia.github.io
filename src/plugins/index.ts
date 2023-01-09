@@ -9,11 +9,12 @@ import { loadFonts } from './webfontloader';
 import vuetify from './vuetify';
 import pinia from '../store';
 import router from '../router';
+import Particles from 'vue3-particles';
 
 // Types
 import type { App } from 'vue';
 
 export function registerPlugins(app: App) {
     loadFonts();
-    app.use(vuetify).use(router).use(pinia);
+    app.use(vuetify).use(router).use(pinia).use(Particles);
 }
