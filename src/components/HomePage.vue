@@ -1,63 +1,28 @@
 <template>
-    <v-responsive class="d-flex align-center text-center">
-        <v-avatar size="200">
-            <v-img alt="avatar" src="@/assets/logo.svg" />
-        </v-avatar>
-
-        <div class="text-body-2 font-weight-light mb-n1">Welcome to</div>
-
-        <h1 class="text-h2 font-weight-bold">
-            <Icon class="mx-1" icon="twemoji:construction" />
-            My portfolio in construction
-            <Icon class="mx-1" icon="twemoji:building-construction" />
-        </h1>
-
-        <div class="py-12" />
-
-        <v-row class="d-flex align-center justify-center">
-            <v-col cols="auto">
-                <v-btn
-                    color="white"
-                    href="https://github.com/daluisgarcia"
-                    min-width="164"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    variant="flat"
-                >
-                    <Icon class="mx-1" icon="logos:github-icon" />
-                    Github
-                </v-btn>
+    <v-responsive class="d-flex align-center h-100">
+        <v-row class="align-center text-center">
+            <v-col cols="12" sm="6">
+                <v-avatar size="275">
+                    <v-img alt="avatar" src="@/assets/logo.svg" />
+                </v-avatar>
             </v-col>
-
-            <v-col cols="auto">
-                <v-btn
-                    color="primary"
-                    min-width="228"
-                    rel="noopener noreferrer"
-                    size="x-large"
-                    target="_blank"
-                >
-                    <v-icon icon="mdi-speedometer" size="large" start />
-                    Are you ready?
-                </v-btn>
-            </v-col>
-
-            <v-col cols="auto">
-                <v-btn
-                    href="https://www.linkedin.com/in/daluisgarcia/"
-                    min-width="164"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    variant="flat"
-                >
-                    <Icon class="mx-1" icon="logos:linkedin-icon" />
-                    LinkedIn
-                </v-btn>
+            <v-col cols="12" sm="6" class="text-center text-sm-start">
+                <p class="text-h4 text-sm-h3 text-md-h2">
+                    Hello! I'm Daniel Luis
+                </p>
+                <p class="text-sm-h6 text-md-h5 my-4">
+                    Proactive and passionate Fullstack developer with experience
+                    in desktop and web apps development, as well as leading
+                    small teams.
+                </p>
+                <p class="text-sm-h6 text-md-h5">
+                    <i>
+                        "Passion and constant learning achieves the impossible."
+                    </i>
+                </p>
             </v-col>
         </v-row>
     </v-responsive>
 </template>
 
-<script lang="ts" setup>
-import { Icon } from '@iconify/vue';
-</script>
+<script lang="ts" setup></script>
