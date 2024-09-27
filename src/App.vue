@@ -28,11 +28,10 @@ import NavBar from '@/layouts/NavBar.vue';
 import Footer from './layouts/Footer.vue';
 
 const theme: Ref<string> = ref(
-    'light'
-    // window.matchMedia &&
-    //     window.matchMedia('(prefers-color-scheme: dark)').matches // Get user's theme preference
-    //     ? 'dark'
-    //     : 'light'
+    window.matchMedia &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches // Get user's theme preference
+        ? 'dark'
+        : 'light'
 );
 
 const particlesOptions = computed(() => {
@@ -61,17 +60,19 @@ const particlesOptions = computed(() => {
                     quantity: 4,
                 },
                 repulse: {
-                    distance: 100,
+                    distance: 50,
                     duration: 0.3,
                 },
             },
         },
         particles: {
             color: {
-                value: theme.value == 'light' ? '#009DFF' : '#B700EB',
+                // value: theme.value == 'light' ? '#009DFF' : '#B700EB',
+                value: '#009DFF',
             },
             links: {
-                color: theme.value == 'light' ? '#10D100' : '#FF600D',
+                // color: theme.value == 'light' ? '#10D100' : '#FF600D',
+                color: '#10D100',
                 distance: 150,
                 enable: true,
                 opacity: 0.5,
