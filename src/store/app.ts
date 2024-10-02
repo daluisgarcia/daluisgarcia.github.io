@@ -9,11 +9,15 @@ import { defineStore } from 'pinia';
 
 export const useAppStore = defineStore('app', {
     state: () => ({
+        pinnedProjectsList: [] as Project[],
         projectsList: [] as Project[],
         technologiesList: [] as Technology[],
         projectFieldsList: [] as ProjectField[],
     }),
     getters: {
+        getPinnedProjects(): Project[] {
+            return this.pinnedProjectsList;
+        },
         getAllProjects(): Project[] {
             return this.projectsList;
         },
@@ -25,6 +29,11 @@ export const useAppStore = defineStore('app', {
         },
     },
     actions: {
+        async getPinnedProjectsFromAPI(getProjectsService: GetProjectsService) {
+            if (this.pinnedProjectsList.length > 0) return;
+            this.pinnedProjectsList =
+                await getProjectsService.getPinnedProjectsFromAPI();
+        },
         async getProjectsFromAPI(getProjectsService: GetProjectsService) {
             if (this.projectsList.length > 0) return;
             this.projectsList = await getProjectsService.getProjectsFromAPI();
