@@ -1,68 +1,79 @@
 <template>
-    <v-row justify="center" no-gutters>
-        <v-dialog
-            v-model="isLoadingData"
-            height="100"
-            :scrim="false"
-            persistent
-        >
-            <v-card height="100">
-                <v-card-text class="text-center">
-                    <b>Loading projects...</b>
-                    <v-progress-linear
-                        indeterminate
-                        color="primary"
-                        class="mt-5"
-                    ></v-progress-linear>
-                </v-card-text>
-            </v-card>
-        </v-dialog>
-        <!-- Technologies buttons for filtering -->
+    <v-container class="pt-0">
+    <v-row v-if="isLoadingData" justify="center">
         <v-col
             align-self="center"
             cols="auto"
-            v-for="tech in technologies"
-            :key="tech.id"
+            v-for="index in 10"
+            :key="index"
         >
-            <v-btn
-                :icon="!tech.is_selected"
-                :flat="!tech.is_selected"
-                :outlined="tech.is_selected"
-                :append-icon="tech.is_selected ? 'mdi-close-circle' : ''"
-                @click="handleFilter(tech, 'technologies')"
-                class="mr-1"
+            <v-skeleton-loader :elevation="5" type="button"></v-skeleton-loader>
+        </v-col>
+    </v-row>
+    <v-row v-else justify="center" no-gutters>
+        <!-- Technologies buttons for filtering -->
+        <v-chip-group
+            v-model="filters.technologies"
+            multiple
+        >
+            <v-chip
+                v-for="tech in technologies"
+                :key="tech.id"
+                filter
+                :value="tech.id"
             >
                 <Icon :icon="tech.icon_name" />
                 <v-tooltip activator="parent" location="bottom">{{
                     tech.name
                 }}</v-tooltip>
-            </v-btn>
-        </v-col>
+            </v-chip>
+
+        </v-chip-group>
         <v-divider class="mx-4" vertical></v-divider>
         <!-- Project fields buttons for filtering -->
-        <v-col
-            align-self="center"
-            cols="auto"
-            v-for="field in projectFields"
-            :key="field.id"
+        <v-chip-group
+            v-model="filters.fields"
+            multiple
         >
-            <v-btn
-                :icon="!field.is_selected"
-                :flat="!field.is_selected"
-                :outlined="field.is_selected"
-                :append-icon="field.is_selected ? 'mdi-close-circle' : ''"
-                @click="handleFilter(field, 'fields')"
-                class="mr-1"
+            <v-chip
+                v-for="field in projectFields"
+                :key="field.id"
+                filter
+                :value="field.id"
             >
                 <Icon :icon="field.icon_name" />
                 <v-tooltip activator="parent" location="bottom">{{
                     field.name
                 }}</v-tooltip>
-            </v-btn>
-        </v-col>
+            </v-chip>
+
+        </v-chip-group>
     </v-row>
     <!-- Project list -->
-    <v-row>
+    <v-row v-if="!isLoadingData && pinnedProjectsFiltered.length > 0">
+        <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            v-for="project in pinnedProjectsFiltered"
+            :key="project.id"
+        >
+            <ProjectCard :project="project" :is-pinned=true />
+        </v-col>
+    </v-row>
+    <v-divider class="my-4"></v-divider>
+    <v-row v-if="isLoadingData">
+        <v-col
+            cols="12"
+            sm="6"
+            md="4"
+            v-for="index in PROJECTS_PER_PAGE * 2"
+            :key="index"
+        >
+            <v-skeleton-loader :elevation="10" type="image, table-heading, list-item-two-line, table-tfoot"></v-skeleton-loader>
+        </v-col>
+    </v-row>
+    <v-row v-else>
         <v-col
             cols="12"
             sm="6"
@@ -70,7 +81,7 @@
             v-for="project in projectsInPage"
             :key="project.id"
         >
-            <ProjectCard :project="project" />
+            <ProjectCard :project="project" :is-pinned=false />
         </v-col>
     </v-row>
     <!-- Pagination -->
@@ -85,13 +96,14 @@
     </v-row>
     <!-- No projects message -->
     <v-row
-        v-if="!isLoadingData && projectsFiltered.length === 0"
+        v-if="!isLoadingData && projectsFiltered.length === 0 && pinnedProjectsFiltered.length === 0"
         class="text-center text-h3"
     >
         <v-col cols="12">
             <b>No projects found</b>
         </v-col>
     </v-row>
+    </v-container>
 </template>
 
 <script lang="ts" setup>
@@ -100,11 +112,10 @@ import { Icon } from '@iconify/vue';
 import { useAppStore } from '@/store/app';
 
 import ProjectCard from '@/components/ProjectCard.vue';
-import Technology from '@/models/TechnologyModel';
-import ProjectField from '@/models/ProjectFieldModel';
 import GetProjectsService from '@/services/GetProjectsService';
 import GetTechnologiesService from '@/services/GetTechnologiesService';
 import GetFieldsService from '@/services/GetFieldsService';
+import Project from '@/models/ProjectModel';
 
 // Pagination
 const PROJECTS_PER_PAGE = 6;
@@ -120,9 +131,11 @@ const filters = reactive<{
     fields: [],
 });
 const appStore = useAppStore();
-const projectsService = new GetProjectsService();
 
 // Data got from the store
+const pinnedProjects = computed(() => {
+    return appStore.getPinnedProjects;
+});
 const allProjects = computed(() => {
     return appStore.getAllProjects;
 });
@@ -133,14 +146,13 @@ const projectFields = computed(() => {
     return appStore.getProjectFields;
 });
 
-// Projects filtered from the store
-const projectsFiltered = computed(() => {
-    // No filters applied
+const filterProjects = (projectsList: any) => {
     if (filters.technologies.length === 0 && filters.fields.length === 0) {
-        return allProjects.value;
+        // No filters applied
+        return projectsList.value;
     }
 
-    return allProjects.value.filter((project) => {
+    return projectsList.value.filter((project: Project) => {
         let hasTech = filters.technologies.length === 0 ? true : false;
         let hasField = filters.fields.length === 0 ? true : false;
 
@@ -158,6 +170,14 @@ const projectsFiltered = computed(() => {
 
         return hasTech && hasField;
     });
+}
+
+// Projects filtered from the store
+const pinnedProjectsFiltered = computed(() => {
+    return filterProjects(pinnedProjects);
+});
+const projectsFiltered = computed(() => {
+    return filterProjects(allProjects);
 });
 
 const numberOfPages = computed(() => {
@@ -171,35 +191,10 @@ const projectsInPage = computed(() => {
     return projectsFiltered.value.slice(start, end);
 });
 
-/**
- * Function to handle the click on a technology or project field button
- * @param item Technology or ProjectField to be added/remove as filter
- * @param filtersArray Array of technologies or project fields ids
- */
-function handleFilter(item: Technology | ProjectField, filterType: string) {
-    let filtersArray: number[] =
-        filterType === 'technologies' ? filters.technologies : filters.fields;
-
-    if (item.is_selected) {
-        // Remove the item from the array
-        filtersArray = filtersArray.filter((id) => item.id !== id);
-
-        // Update the array
-        if (filterType === 'technologies') {
-            filters.technologies = filtersArray;
-        } else {
-            filters.fields = filtersArray;
-        }
-
-        item.is_selected = false;
-    } else {
-        filtersArray.push(item.id);
-        item.is_selected = true;
-    }
-}
-
 // Actions to be done when the component is mounted
 onMounted(async () => {
+    const projectsService = new GetProjectsService();
+    await appStore.getPinnedProjectsFromAPI(projectsService);
     await appStore.getProjectsFromAPI(projectsService);
 
     const technologiesService = new GetTechnologiesService();

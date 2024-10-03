@@ -30,5 +30,10 @@ const socialMedia = ref([
         icon: 'mdi-linkedin',
         url: 'https://www.linkedin.com/in/daluisgarcia/',
     },
+    {
+        name: 'Mail',
+        icon: 'mdi-gmail',
+        url: 'mailto:daluisgarcia@gmail.com',
+    },
 ]);
 </script>

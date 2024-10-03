@@ -1,15 +1,24 @@
 <template>
     <v-card height="100%">
-        <v-carousel cover hide-delimiters height="250">
+        <v-carousel
+            progress="circle"
+            show-arrows="hover"
+            cover
+            hide-delimiters
+            height="250"
+        >
             <v-carousel-item
                 v-for="media in project.media_files"
                 :key="media.file"
             >
-                <v-img :src="media.file" />
+                <v-img :src="media.file"/>
             </v-carousel-item>
         </v-carousel>
 
         <v-card-title>
+            <span v-if="isPinned">
+                <v-icon color="primary">mdi-pin</v-icon>
+            </span>
             {{ project.name }}
         </v-card-title>
 
@@ -27,7 +36,7 @@
             <v-row no-gutters>
                 <v-col cols="auto" class="mr-auto" align-self="center">
                     <span v-for="tech in project.technologies" :key="tech.id">
-                        <Icon class="mr-2" :icon="tech.icon_name" height="25" />
+                        <Icon class="mr-2" :icon="tech.icon_name" height="23" />
                         <v-tooltip activator="parent" location="bottom">{{
                             tech.name
                         }}</v-tooltip>
@@ -47,6 +56,13 @@
                         icon="mdi-open-in-new"
                     >
                     </v-btn>
+                    <span
+                        v-if="!project.project_link && !project.github_link"
+                        class="mx-1"
+                    >
+                        <v-icon color="primary" height="23">mdi-lock</v-icon>
+                        <v-tooltip activator="parent" location="bottom">Private</v-tooltip>
+                    </span>
                 </v-col>
             </v-row>
         </v-card-actions>
@@ -58,5 +74,6 @@ import { Icon } from '@iconify/vue';
 import Project from '@/models/ProjectModel';
 defineProps<{
     project: Project;
+    isPinned: boolean;
 }>();
 </script>
